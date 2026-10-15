@@ -66,22 +66,10 @@ Every item below was run against the current code; the checks are in the reposit
 3. Triple-loop timings (2 − √2)/4 and 1 − (2 − √2)/4 for two simultaneous nulling conditions.
 4. The double-diffraction scale factor of exactly 2 × k·T_eff² with simultaneous beams.
 
-Scripts and outputs for each are in the repository and can be run by reviewers.
 
 ## Search results so far
 
-At K = 5 (ten sub-pulses) all 2¹⁰ = 1,024 on/off patterns were optimised from 32 random starts each, to
-convergence, on one A100. A separate joint optimiser (continuous topology) was run from 32,768 starts. At a
-velocity width of 0.002 recoil velocities, with the ladder truncated at |n| ≤ 3 and again at |n| ≤ 5:
-
-- The best designs are a known mechanism, a symmetric ±ħk geometry with doubled momentum separation, scoring
-  about 4.0 times the Mach–Zehnder in the model's Fisher information. The model does **not** yet charge a cost
-  per pulse (spontaneous emission, pulse errors, laser phase noise), so this is a rediscovery, not a new design.
-- **32 random starts do not reach a topology's optimum.** The median hit rate of the best optimum is about 0.09
-  per start. Warm-started re-optimisation improved 84 of 1,024 topologies, 39 of them by more than 1%
-  and 8 by more than a factor of two. Establishing trustworthy per-topology optima is therefore a
-  question of how many starts and which optimiser, and it is a compute-bound one.
-- Raising the ladder from |n| ≤ 3 to |n| ≤ 5 changed nothing at K = 5.
+At K = 5, all 1,024 on/off patterns were optimised from 32 random starts each, and a joint continuous-topology optimiser was run from 32,768 starts. The best designs recover a known mechanism (a symmetric ±ħk geometry with doubled momentum separation), not a new scheme. 32 random starts do not reliably reach a topology's optimum, so per-topology values are lower bounds.
 
 ## Computational profile
 
@@ -97,8 +85,7 @@ Measured on one NVIDIA A100-PCIE-40GB (ML Cloud, Tübingen), float64, JAX 0.11.2
 
 The workload has three independent axes: topologies, random restarts and velocity-quadrature nodes. There
 is no communication between them, so it maps onto batching and sharding. The cost grows quickly with K: an
-exhaustive K = 12 enumeration (2²⁴ patterns × 32 starts) projects to about 10¹² gradient evaluations, roughly
-13,000 A100-hours at the throughput above. That run is not planned.
+exhaustive K = 12 enumeration (2²⁴ patterns × 32 starts) projects to about 10¹² gradient evaluations; this specific run is not currently planned.
 
 ## Intended use of a development allocation
 
@@ -116,12 +103,6 @@ it costs to certify per-topology optima at larger K. The deliverable is a docume
 - **Optimiser certification.** Per-topology values are lower bounds, not proven optima (see above).
 - **Hardware portability.** The best value of a many-start search reproduced exactly on two different A100
   nodes, but individual starts can differ between a CPU and a GPU, so only best-of-many values should be quoted.
-
-## Provenance
-
-Measurements on this page come from the 9–12 October 2026 runs on the ML Cloud; validation and rediscovery
-results were produced from the repository state at the time. Each result file in the repository records the
-commit it ran at. Nothing here is peer reviewed.
 
 ## Access and contact
 

@@ -3,7 +3,6 @@
 **A differentiable simulator for pulse-sequence design in light-pulse atom interferometry.**
 
 *Shubhang Dadhich, University of Tübingen. Research prototype. Page last updated 2026-10-15.*
-*Source code is in a private repository; access for reviewers is available on request (contact below).*
 
 ---
 
@@ -87,12 +86,6 @@ The workload has three independent axes: topologies, random restarts and velocit
 is no communication between them, so it maps onto batching and sharding. The cost grows quickly with K: an
 exhaustive K = 12 enumeration (2²⁴ patterns × 32 starts) projects to about 10¹² gradient evaluations; this specific run is not currently planned.
 
-## Intended use of a development allocation
-
-Port the code to the target GPU system, validate it against the checks above, and implement batched
-and sharded execution across the three axes. Then measure scaling on 1 to many GPUs and write down what
-it costs to certify per-topology optima at larger K. The deliverable is a documented scaling study.
-
 ## Limitations
 
 - **No position.** The model has no spatial wavefunction, so gravity gradients, rotations, wavefront curvature
@@ -103,7 +96,3 @@ it costs to certify per-topology optima at larger K. The deliverable is a docume
 - **Optimiser certification.** Per-topology values are lower bounds, not proven optima (see above).
 - **Hardware portability.** The best value of a many-start search reproduced exactly on two different A100
   nodes, but individual starts can differ between a CPU and a GPU, so only best-of-many values should be quoted.
-
-## Access and contact
-
-The source code is in a private repository. Reviewers can be given read access: <contact email>.
